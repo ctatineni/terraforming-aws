@@ -30,11 +30,11 @@ echo "$CREDHUB_CA_CERT" >> credhub_ca_cert
 export STEMCELL_URL="https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-xenial-go_agent"
 bosh upload-stemcell $STEMCELL_URL
 
-bosh update-config --type=cloud --name=concourse \
+bosh -n update-config --type=cloud --name=concourse \
   -v lb_target_groups="[$(terraform output control_plane_web_target_group)]" \
    ./concourse-cloud-config.yml
 
-bosh deploy -d concourse concourse-bosh-deployment/cluster/concourse.yml \
+bosh -n deploy -d concourse concourse-bosh-deployment/cluster/concourse.yml \
     -l concourse-bosh-deployment/versions.yml \
     -l vars/concourse-vars-file.yml \
     -o concourse-bosh-deployment/cluster/operations/basic-auth.yml \

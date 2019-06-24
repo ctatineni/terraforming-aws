@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: "f811d258-c0e5-4009-8f4f-5f2055a62a72"
+spec:
+  hosts:
+  - 'my-cluster.api.pks.ctatineni.com'
+  gateways:
+  - ingress-gateway
+  http:
+  - match:
+    route:
+    - destination:
+        host: my-cluster.api.pks.ctatineni.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: "f811d258-c0e5-4009-8f4f-5f2055a62a72"
+spec:
+  endpoints:
+  - address: 10.0.8.8
+  hosts:
+  - 'my-cluster.api.pks.ctatineni.com'
+  location: MESH_EXTERNAL
+  ports:
+  - name: neverokay
+    number: 8443
+    protocol: HTTP
+  resolution: STATIC
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: "f811d258-c0e5-4009-8f4f-5f2055a62a72"
+spec:
+  host: my-cluster.api.pks.ctatineni.com
+  trafficPolicy:
+    tls:
+      mode: SIMPLE

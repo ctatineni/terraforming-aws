@@ -78,3 +78,29 @@ resource "aws_lb_target_group" "pks_api_8443" {
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
 }
+
+resource "aws_lb" "harbor" {
+  name                             = "${var.env_name}-harbor"
+  load_balancer_type               = "network"
+  enable_cross_zone_load_balancing = true
+  internal                         = false
+  subnets                          = ["${var.public_subnet_ids}"]
+}
+
+resource "aws_lb_listener" "harbor_8443" {
+  load_balancer_arn = "${aws_lb.harbor.arn}"
+  port              = 8443
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = "${aws_lb_target_group.harbor_8443.arn}"
+  }
+}
+
+resource "aws_lb_target_group" "harbor_8443" {
+  name     = "${var.env_name}-harbor-tg-8443"
+  port     = 8443
+  protocol = "TCP"
+  vpc_id   = "${var.vpc_id}"
+}

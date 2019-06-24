@@ -18,3 +18,4 @@ om.key
 credhub-*
 credhub_*
 vars
+k8s-istio-resource-generator

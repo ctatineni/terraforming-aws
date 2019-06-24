@@ -5,6 +5,12 @@ output "pks_api_target_groups" {
   ]
 }
 
+output "harbor_target_groups" {
+  value = [
+    "${aws_lb_target_group.harbor_8443.name}",
+  ]
+}
+
 output "pks_subnet_ids" {
   value = ["${aws_subnet.pks_subnets.*.id}"]
 }
@@ -55,6 +61,10 @@ output "pks_worker_iam_role_arn" {
 
 output "domain" {
   value = "api.pks.${var.env_name}.${var.dns_suffix}"
+}
+
+output "harbor_domain" {
+  value = "harbor.${var.env_name}.${var.dns_suffix}"
 }
 
 output "pks_master_security_group_id" {
