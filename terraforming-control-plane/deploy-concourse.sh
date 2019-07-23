@@ -3,6 +3,8 @@ set -e
 
 source ./set-bosh-proxy.sh
 
+bosh cc
+
 cat > vars/concourse-vars-file.yml <<EOL
 external_host: "${EXTERNAL_HOST}"
 external_url: "https://${EXTERNAL_HOST}"
@@ -12,9 +14,9 @@ local_user:
 network_name: 'control-plane'
 web_instances: 1
 web_network_name: 'control-plane'
-web_vm_type: 'c4.xlarge'
+web_vm_type: 'c5.large'
 web_network_vm_extension: 'control-plane-lb-cloud-properties'
-db_vm_type: 'c4.xlarge'
+db_vm_type: 'c5.large'
 db_persistent_disk_type: '51200'
 worker_instances: 2
 worker_vm_type: 'worker'
