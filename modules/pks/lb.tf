@@ -87,20 +87,20 @@ resource "aws_lb" "harbor" {
   subnets                          = ["${var.public_subnet_ids}"]
 }
 
-resource "aws_lb_listener" "harbor_8443" {
+resource "aws_lb_listener" "harbor_4443" {
   load_balancer_arn = "${aws_lb.harbor.arn}"
-  port              = 8443
+  port              = 4443
   protocol          = "TCP"
 
   default_action {
     type             = "forward"
-    target_group_arn = "${aws_lb_target_group.harbor_8443.arn}"
+    target_group_arn = "${aws_lb_target_group.harbor_4443.arn}"
   }
 }
 
-resource "aws_lb_target_group" "harbor_8443" {
-  name     = "${var.env_name}-harbor-tg-8443"
-  port     = 8443
+resource "aws_lb_target_group" "harbor_4443" {
+  name     = "${var.env_name}-harbor-tg-4443"
+  port     = 4443
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
 }
